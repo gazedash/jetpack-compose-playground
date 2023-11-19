@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -31,10 +32,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.isometric.ui.theme.IsometricTheme
 import kotlin.math.log2
 import kotlin.math.roundToInt
@@ -129,14 +135,8 @@ fun Greeting(modifier: Modifier = Modifier) {
 
             Text(text = "\n")
 
-            Row() {
-                EvItem()
-                EvItem()
-                EvItem(true)
-                EvItem()
-                EvItem()
+            EvCompensation(value = 0.0)
 
-            }
         }
     }
 
@@ -155,15 +155,48 @@ fun Greeting(modifier: Modifier = Modifier) {
 }
 
 @Composable
+private fun EvCompensation(value: Double) {
+    val indicatorStr = "⁻2.1.0.1.2⁺"
+
+    Row() {
+        Text(text = indicatorStr, fontSize = 32.sp, fontFamily = FontFamily.Monospace)
+    }
+
+    val indicatorRange = indicatorStr.length
+
+//            -2.5 to 2.5
+//            0 to 5
+    val adaptedValue = when (value + 2.5) {
+        0.0 -> 0
+        0.5 -> 1
+        1.0 -> 2
+        1.5 -> 3
+        2.0 -> 4
+        2.5 -> 5
+        3.0 -> 6
+        3.5 -> 7
+        4.0 -> 8
+        4.5 -> 9
+        5.0 -> 10
+        else -> -100
+    }
+
+    Row() {
+        for (i in 0..<indicatorRange) {
+            EvItem(i == adaptedValue)
+        }
+    }
+}
+
+@Composable
 private fun EvItem(filled: Boolean = false) {
-    Box(
-        modifier = Modifier
-            .border(Dp(2.0F), Color.Black)
-            .padding(4.dp)
-            .let { if (filled) it.background(Color.Black) else it.background(Color.Transparent)}
-            .padding(4.dp)
-            .width(32.dp)
-            .height(16.dp)
+    Box(modifier = Modifier
+        .padding(2.dp)
+
+        .width(16.dp)
+        .height(24.dp)
+        .let { if (filled) it.background(Color.Black) else it.background(Color.Transparent) }
+
     ) {
 
     }
