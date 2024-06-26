@@ -67,7 +67,7 @@ fun Greeting(modifier: Modifier = Modifier) {
     var shutterSpeed by remember { mutableFloatStateOf(0f) }
     var aperture by remember { mutableFloatStateOf(0f) }
 
-    var show by remember { mutableStateOf(false) }
+//    var show by remember { mutableStateOf(false) }
 
     val apertures = getApertures()
     val apertureValue = apertures[aperture.toInt()]
@@ -140,18 +140,18 @@ fun Greeting(modifier: Modifier = Modifier) {
         }
     }
 
-    if (show) {
-        Box(
-            contentAlignment = Alignment.BottomCenter, modifier = Modifier.padding(32.dp)
-        ) {
-            Text(
-                text = evDescr,
-//            style = TextStyle(color = Color(red = 0x00, green = 0x00, blue = 0x00, alpha = 0x50))
-            )
-
-            Text(text = getEvEmoji(ev))
-        }
-    }
+//    if (show) {
+//        Box(
+//            contentAlignment = Alignment.BottomCenter, modifier = Modifier.padding(32.dp)
+//        ) {
+//            Text(
+//                text = evDescr,
+////            style = TextStyle(color = Color(red = 0x00, green = 0x00, blue = 0x00, alpha = 0x50))
+//            )
+//
+//            Text(text = getEvEmoji(ev))
+//        }
+//    }
 }
 
 @Composable
@@ -192,7 +192,6 @@ private fun EvCompensation(value: Double) {
 private fun EvItem(filled: Boolean = false) {
     Box(modifier = Modifier
         .padding(2.dp)
-
         .width(16.dp)
         .height(24.dp)
         .let { if (filled) it.background(Color.Black) else it.background(Color.Transparent) }
